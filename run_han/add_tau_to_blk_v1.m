@@ -15,6 +15,9 @@ grd_name='ROMS_FILES\roms_grd.nc';
 varname='toc';% 'tar' or 'toc'
 blk_prefix='roms_blk_CFSR_';
 
+if exist(blk_new_dir,'dir')==0
+	mkdir(blk_new_dir);% 或者用 mkdir data,在当前目录下，生成一个data文件夹
+end
 %****************************************************
 
  for Y=Ymin:Ymax

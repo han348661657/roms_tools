@@ -4,7 +4,7 @@ j=find(lat>=(latmin-1) & lat<=(latmax+1));
 %
 i1=find(lon-360>=lonmin & lon-360<=lonmax);
 i2=find(lon>=(lonmin) & lon<=(lonmax));
-i3=find(lon+360>=(lonmin) & lon+360<=(lonmax));
+i3=find(lon+360-1>=(lonmin) & lon+360+1<=(lonmax));% 当lonmin=-180,lonmax=180时，不要与i2混了
 %
 lon=cat(1,lon(i1)-360,lon(i2),lon(i3)+360);
 lat=lat(j);
