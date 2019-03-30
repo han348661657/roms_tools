@@ -1,0 +1,13 @@
+blk1='H:\roms-rutgers\toolbox\ww3\ROMS_FILES\roms_blk_CFSR_Y2004M1.nc';
+bry1='H:\roms-rutgers\toolbox\ww3\ROMS_FILES\roms_bry_SODA_Y2004M1.nc';
+ini1='H:\roms-rutgers\toolbox\ww3\ROMS_FILES\roms_ini_SODA_Y2004M1.nc';
+clm1='H:\roms-rutgers\toolbox\ww3\ROMS_FILES\\roms_clm_SODA_Y2004M4.nc';
+ini_time=ncread(ini1,'scrum_time');
+bry_time=ncread(bry1,'bry_time');
+blk_time=ncread(blk1,'time');
+clm_time=ncread(clm1,'tclm_time');
+Orpin=datenum(2000,1,1);
+ini_time=datestr(ini_time/3600/24+Orpin,'yyyymmddHH');
+bry_time=datestr(bry_time+Orpin);
+blk_time=datestr(blk_time+Orpin);
+clm_time=datestr(clm_time+Orpin);
