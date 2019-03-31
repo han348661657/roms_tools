@@ -45,19 +45,64 @@ var=[];
 %
 if ~isempty(i2min)
   irange=['[',num2str(i2min),':',num2str(i2max),']'];
-  var=readdap(url,vname,[trange,krange,jrange,irange]);
+  N1=find(irange==':');
+  N2=find(jrange==':');
+  
+  jstr=str2double(jrange(2:N2-1));
+  jend=str2double(jrange(N2+1:end-1));
+  istr=str2double(irange(2:N1-1));
+  iend=str2double(irange(N1+1:end-1));
+
+  step1=iend-istr+1;
+  step2=jend-jstr+1;
+
+  tstr=str2double(trange(2:end-1));
+  if isempty(krange)
+     var=ncread(url,vname,[istr jstr tstr],...
+       [step1 step2 1],[1 1 1]);
+  else
+      N3=find(krange==':');
+      kstr=str2double(krange(2:N3-1));
+      kend=str2double(krange(N3+1:end-1));
+      step3=kend-kstr+1;
+      var=ncread(url,vname,[istr jstr kstr tstr],...
+       [step1 step2 step3 1],[1 1 1 1]);
+  end
+
 end
 %
 if ~isempty(i1min)
-  irange=['[',num2str(i1min),':',num2str(i1max),']'];
-  var0=readdap(url,vname,[trange,krange,jrange,irange]);
-  var=cat(2,var0,var);
+    irange=['[',num2str(i1min),':',num2str(i1max),']'];
+  N1=find(irange==':');
+  N2=find(jrange==':');
+  
+  jstr=str2double(jrange(2:N2-1));
+  jend=str2double(jrange(N2+1:end-1));
+  istr=str2double(irange(2:N1-1));
+  iend=str2double(irange(N1+1:end-1));
+
+  step1=iend-istr+1;
+  step2=jend-jstr+1;
+
+  tstr=str2double(trange(2:end-1));
+  if isempty(krange)
+     var0=ncread(url,vname,[istr jstr tstr],...
+       [step1 step2 1],[1 1 1]);
+  else
+      N3=find(krange==':');
+      kstr=str2double(krange(2:N3-1));
+      kend=str2double(krange(N3+1:end-1));
+      step3=kend-kstr+1;
+      var0=ncread(url,vname,[istr jstr kstr tstr],...
+       [step1 step2 step3 1],[1 1 1 1]);
+  end
+  var=cat(1,var0,var);
 end
 %
 if ~isempty(i3min)
   irange=['[',num2str(i3min),':',num2str(i3max),']'];
   var0=readdap(url,vname,[trange,krange,jrange,irange]);
-  var=cat(2,var,var0);
+  var=cat(1,var,var0);
 end
 %
 return

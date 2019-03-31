@@ -74,7 +74,7 @@ Lp=length(nc('xi_rho'));
 Mp=length(nc('eta_rho'));
 status=close(nc);
 hmin=min(min(h(maskr==1)));
-if vtransform ==1;
+if vtransform ==1
   if hc > hmin
     error([' hc (',num2str(hc),' m) > hmin (',num2str(hmin),' m)'])
   end
@@ -87,8 +87,17 @@ Np=N+1;
 %
 type = 'CLIMATOLOGY file' ; 
 history = 'ROMS' ;
-nc = netcdf(clmname,clobber);
+if exist(clmname,'file')
+    disp('deleting the old clm file')
+    delete(clmname)
+    %eval('!rm frcname')
+end
+nccreate(clmname,'64bit');
+% nw = netcdf(frcname, 'write');
+% result = redef(nw);
+nc = netcdf(clmname, 'write');
 result = redef(nc);
+
 %
 %  Create dimensions
 %
@@ -112,10 +121,11 @@ nc('v3d_time')  = length(time);
 nc('ssh_time')  = length(time);
 nc('zeta_time') = length(time);
 nc('one') = 1;
-%
+
 %  Create variables
 %
 nc{'spherical'} = ncchar('one') ;
+
 nc{'Vtransform'} = ncint('one') ;
 nc{'Vstretching'} = ncint('one') ;
 nc{'tstart'} = ncdouble('one') ;
@@ -128,17 +138,22 @@ nc{'sc_r'} = ncdouble('s_rho') ;
 nc{'sc_w'} = ncdouble('s_w') ;
 nc{'Cs_r'} = ncdouble('s_rho') ;
 nc{'Cs_w'} = ncdouble('s_w') ;
+
 nc{'tclm_time'} = ncdouble('tclm_time') ;
 nc{'temp_time'} = ncdouble('temp_time') ;
 nc{'sclm_time'} = ncdouble('sclm_time') ;
 nc{'salt_time'} = ncdouble('salt_time') ;
 nc{'uclm_time'} = ncdouble('uclm_time') ;
 nc{'vclm_time'} = ncdouble('vclm_time') ;
+
 nc{'v2d_time'} = ncdouble('v2d_time') ;
 nc{'v3d_time'} = ncdouble('v3d_time') ;
 nc{'ssh_time'} = ncdouble('ssh_time') ;
 nc{'zeta_time'} = ncdouble('zeta_time') ;
+
 nc{'temp'} = ncdouble('tclm_time','s_rho','eta_rho','xi_rho') ;
+% result = endef(nc);
+% close(nc);
 nc{'salt'} = ncdouble('sclm_time','s_rho','eta_rho','xi_rho') ;
 nc{'u'} = ncdouble('uclm_time','s_rho','eta_u','xi_u') ;
 nc{'v'} = ncdouble('vclm_time','s_rho','eta_v','xi_v') ;

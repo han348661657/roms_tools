@@ -96,7 +96,7 @@ hmax = 5000;
 %  Topography netcdf file name (ETOPO 2 or any other netcdf file
 %  in the same format)
 %
-TOPODIR = '../';
+TOPODIR = '..\';
 % topofile = [TOPODIR,'Topo/etopo2.nc'];
 topofile = [TOPODIR,'Topo/GRIDONE_2D.nc'];
 %
@@ -131,9 +131,9 @@ coastfilemask = 'coastline_f_mask.mat';
 %Roa=300e3;
 Roa=0;
 %
-interp_method = 'linear';         % Interpolation method: 'linear' or 'cubic'
+interp_method = 'makima';         % Interpolation method: 'linear' or 'cubic'
 %
-makeplot     = 1;                 % 1: create a few graphics after each preprocessing step
+makeplot     = 0;                 % 1: create a few graphics after each preprocessing step
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -144,11 +144,11 @@ makeplot     = 1;                 % 1: create a few graphics after each preproce
 %
 %  ROMSTOOLS directory
 %
-ROMSTOOLS_dir = '../';
+ROMSTOOLS_dir = '..\';
 %
 %  Run directory
 %
-RUN_dir=[pwd,'/'];
+RUN_dir=[pwd,'\'];
 %
 %  ROMS input netcdf files directory
 % 该文件夹下需包含grd.nc
@@ -223,7 +223,7 @@ pathfinder_sst_name=[DATADIR,...
 %
 %  Open boundaries switches (! should be consistent with cppdefs.h !)
 %
-obc = [1 1 1 1]; % open boundaries (1=open , [S E N W])
+obc = [1 0 1 0]; % open boundaries (1=open , [S E N W])
 %
 %  Level of reference for geostrophy calculation
 %
@@ -354,7 +354,7 @@ SPIN_Long     = 0;             % SPIN-UP duration in Years
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-Download_data = 1;   % Get data from OPENDAP sites  
+Download_data = 0;   % Get data from OPENDAP sites SODA 
 level         = 0;   % AGRIF level; 0 = parent grid
 %					  
 NCEP_version  = 3;   % NCEP version: 
@@ -428,7 +428,7 @@ QSCAT_clim_file  = [DATADIR,'QuikSCAT_clim/',...             % QuikSCAT climatol
 %
 OGCM        = 'SODA';        % Select the OGCM: SODA, ECCO
 %
-OGCM_dir    = [FORC_DATA_DIR,OGCM,'_',ROMS_config,'/']; % OGCM data directory
+OGCM_dir    = [FORC_DATA_DIR,OGCM,'_',ROMS_config,'\']; % OGCM data directory
 if ~exist(OGCM_dir,'file')
     disp(['creat new fold:',OGCM_dir])
     mkdir(OGCM_dir)

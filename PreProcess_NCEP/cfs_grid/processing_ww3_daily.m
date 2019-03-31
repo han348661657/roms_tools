@@ -2,18 +2,18 @@ clear;clc;
 %生成ww3 case 中制作forc.nc所需的CFSR中间文件
 %===========================================
 %用户定义参数
-Ymin=2005;
+Ymin=2004;
 Ymax=2005;
-Mmin=1;
-Mmax=1;
+Mmin=12;
+Mmax=2;
 NCEP_dir='E:\2.NCEP\data\';% 该目录下还有两级子文件夹，YYYY/month/
-Output_dir='H:\roms-liu\run_han\ROMS_FILES\CFSR_Equator';
+Output_dir='H:\roms-liu\run_han\ROMS_FILES\CFSR_Equator\';
 Yorig=2000;
 %最好设置的比make_grid大1度
 lonmin =   -180;   % Minimum longitude [degree east]
 lonmax =  180;   % Maximum longitude [degree east]
 latmin = -66;   % Minimum latitudeF  [degree north]
-latmax = -29;   % Maximum latitude  [degree north]
+latmax = -34;   % Maximum latitude  [degree north]
 %==================================================================
 %获取关注区域
 

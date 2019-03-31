@@ -1,39 +1,24 @@
-function download_SODA(Ymin,Ymax,Mmin,Mmax,lonmin,lonmax,latmin,latmax,...
-                       OGCM_dir,OGCM_prefix,url,Yorig)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Extract a subgrid from SODA to get a ROMS forcing
-% Store that into monthly files.
-% Take care of the Greenwitch Meridian.
-% 
-%
-%  Further Information:  
-%  http://www.brest.ird.fr/Roms_tools/
-%  
-%  This file is part of ROMSTOOLS
-%
-%  ROMSTOOLS is free software; you can redistribute it and/or modify
-%  it under the terms of the GNU General Public License as published
-%  by the Free Software Foundation; either version 2 of the License,
-%  or (at your option) any later version.
-%
-%  ROMSTOOLS is distributed in the hope that it will be useful, but
-%  WITHOUT ANY WARRANTY; without even the implied warranty of
-%  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-%  GNU General Public License for more details.
-%
-%  You should have received a copy of the GNU General Public License
-%  along with this program; if not, write to the Free Software
-%  Foundation, Inc., 59 Temple Place, Suite 330, Boston,
-%  MA  02111-1307  USA
-%
-%  Copyright (c) 2005-2006 by Pierrick Penven 
-%  e-mail:Pierrick.Penven@ird.fr  
-%
-%  Updated    6-Sep-2006 by Pierrick Penven
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function download_SODA(Ymin,Ymax,Mmin,Mmax,lonmin,lonmax,latmin,latmax,OGCM_dir,OGCM_prefix,url,Yorig)
 
+
+% Ymin          = 2009;          % first forcing year
+% Ymax          = 2009;          % last  forcing year
+% Mmin          = 1;             % first forcing month
+% Mmax          = 12;             % last  forcing month
+% Yorig         =2000;
+% 
+% lonmin =   310;   % Minimum longitude [degree east]
+% lonmax =  350;   % Maximum longitude [degree east]
+% latmin = 45;   % Minimum latitudeF  [degree north]
+% latmax = 65;   % Maximum latitude  [degree north]
+% 
+% % SODA_2.2.4/ [ C20R-2 1871-2008 / POP2.1 ]
+% url='http://apdrc.soest.hawaii.edu:80/dods/public_data/SODA/soda_pop2.2.4' ;
+%   
+% OGCM_prefix=   'SODA';
+% OGCM_dir      = 'H:\roms-rutgers\toolbox\ww3\ROMS_FILES\SODA_N Atl\';
+%   
+                   
 disp([' '])
 disp(['Get data from Y',num2str(Ymin),'M',num2str(Mmin),...
       ' to Y',num2str(Ymax),'M',num2str(Mmax)])
@@ -46,16 +31,21 @@ disp([' '])
 % Define the original date of the SODA data
 % 
 if strcmp(url,'http://apdrc.soest.hawaii.edu:80/dods/public_data/SODA/soda_pop2.1.6')
-   year_orig_SODA=1958;
+%if strcmp(url,'http://iridl.ldeo.columbia.edu/SOURCES/.CARTON-GIESE/.SODA/.v2p1p6')
+    year_orig_SODA=1958;
 elseif strcmp(url,'http://apdrc.soest.hawaii.edu:80/dods/public_data/SODA/soda_pop2.2.4')
-   year_orig_SODA=1871;
+%elseif strcmp(url,'http://iridl.ldeo.columbia.edu/SOURCES/.CARTON-GIESE/.SODA/.v2p2p4')
+    year_orig_SODA=1871;
+%elseif strcmp(url,'http://apdrc.soest.hawaii.edu:80/dods/public_data/SODA/soda_pop2.2.6')
+%      year_orig_SODA=1866;  
 end
+
 
 %
 % Create the directory
 %
 disp(['Making output data directory ',OGCM_dir])
-eval(['!mkdir ',OGCM_dir])
+eval(['mkdir ',OGCM_dir])
 %
 % Start 
 %
@@ -64,12 +54,12 @@ disp(['Process the dataset: ',url])
 % Find a subset of the SODA grid
 %
 [i1min,i1max,i2min,i2max,i3min,i3max,jrange,krange,lon,lat,depth]=...
- get_SODA_subgrid([url],lonmin,lonmax,latmin,latmax);
+ get_SODA_subgrid(url,lonmin,lonmax,latmin,latmax);
 %
 % Get SODA time 
 %
 %  Months since 1960-01-01 
-%       --> http://iridl.ldeo.columbia.edu/SOURCES/.CARTON-GIESE/.SODA/.v2p1p6/ 
+%       --> http://iridl.ldeo.columbia.edu/SOURCES/.CARTON-GIESE/.SODA/.v2p1p6/
 %
 % Transform it into Yorig time (i.e days since Yorig-01-01)
 %year=floor(1960+SODA_time/12);
@@ -78,7 +68,7 @@ disp(['Process the dataset: ',url])
 
 %  Days since 01-01-01 on apdrc.soest.hawaii.edu:80 dods server
 %
-SODA_time=readdap([url],'time',[]);
+SODA_time=ncread(url,'time');
 %
 % Get the months and the years
 %

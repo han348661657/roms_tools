@@ -2,6 +2,9 @@
 *.cdf
 *.gif
 *.zip
-*.mat
 *grb2
 *gbx9
+*.mat 
+run_han/coastline_f.mat
+run_han/coastline_f_mask.mat
+run_han/ijcoast.mat

@@ -31,7 +31,7 @@ function [i1min,i1max,i2min,i2max,i3min,i3max,jrange,krange,lon,lat,depth]=...
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-dl=1;
+dl=0;
 lonmin=lonmin-dl;
 lonmax=lonmax+dl;
 latmin=latmin-dl;
@@ -55,15 +55,15 @@ i3=find(lon+360>=lonmin & lon+360<=lonmax);
 lon=cat(1,lon(i1)-360,lon(i2),lon(i3)+360);
 %
 if ~isempty(i1)
-  i1min=min(i1)-1;
-  i1max=max(i1)-1;
+  i1min=min(i1);
+  i1max=max(i1);
 else
   i1min=[];
   i1max=[];
 end
 if ~isempty(i2)
-  i2min=min(i2)-1;
-  i2max=max(i2)-1;
+  i2min=min(i2);
+  i2max=max(i2);
 else
   i2min=[];
   i2max=[];
@@ -79,9 +79,10 @@ end
 % 2 Latitude
 %
 j=find(lat>=latmin & lat<=latmax);
-lat=lat(j);
+% lat=lat(j);
 jmin=min(j)-1;
-jmax=max(j)-1;
+jmax=max(j)+1;
+lat=lat(jmin:jmax);
 jrange=['[',num2str(jmin),':',num2str(jmax),']'];
 %
 % 3 Depth

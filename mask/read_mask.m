@@ -121,7 +121,8 @@ end,
 % Bathymetry.
 
 if (got.hraw),
-  bath=nc_read(Gname,Vname.hraw,1);
+  % bath=nc_read(Gname,Vname.hraw,1);
+  bath=nc_read(Gname,Vname.hraw);
 else,
   if (got.h),
     bath=nc_read(Gname,Vname.h);
