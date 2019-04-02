@@ -5,7 +5,7 @@ clear;clc;
 Ymin=2004;
 Ymax=2005;
 Mmin=12;
-Mmax=2;
+Mmax=2 ;
 NCEP_dir='E:\2.NCEP\data\';% 该目录下还有两级子文件夹，YYYY/month/
 Output_dir='H:\roms-liu\run_han\ROMS_FILES\CFSR_Equator\';
 Yorig=2000;
@@ -25,14 +25,62 @@ catch
 end
 glat=nc1.data('lat');
 glon=nc1.data('lon');
+% index_xi=find(glon>lonmin-1 & glon<lonmax+1 );
+% index_eta=find(glat>latmin-1 & glat<latmax+1);
+% lon=glon(index_xi);
+% lon=double(lon);
+% lat=glat(index_eta);
+% lat=double(lat);
+% lat=flipud(lat);
 
-index_xi=find(glon>lonmin-1 & glon<lonmax+1 );
-index_eta=find(glat>latmin-1 & glat<latmax+1);
-lon=glon(index_xi);
-lon=double(lon);
-lat=glat(index_eta);
-lat=double(lat);
-lat=flipud(lat);
+
+dl=1;
+lonmin=lonmin-dl;
+if lonmin<-180
+    lonmin=lonmin+dl;
+end
+lonmax=lonmax+dl;
+if lonmax>180
+    lonmax=lonmax-dl;
+end
+latmin=latmin-dl;
+latmax=latmax+dl;
+%
+% Extract a data subgrid
+%
+Y=glat;
+X=glon;
+index_eta=find(Y>=latmin & Y<=latmax);
+i1=find(X-360>=lonmin & X-360<=lonmax);
+i2=find(X>=lonmin & X<=lonmax);
+i3=find(X+360>=lonmin & X+360<=lonmax);
+if ~isempty(i2)
+  x=X(i2);
+  index_xi=i2;
+else
+  x=[];
+  index_xi=[];
+end
+if ~isempty(i1)
+  x=cat(1,X(i1)-360,x);
+  index_xi=cat(1,i1,index_xi);
+end
+if ~isempty(i3)
+  x=cat(1,x,X(i3)+360);
+  index_xi=cat(1,index_xi,i3);
+end
+y=Y(index_eta);
+lat=flipud(double(y));
+lon=double(x);
+
+
+
+
+
+
+
+
+
 % ======================================================
 % make_mask
 mask=squeeze(nc1.data('Land_cover_0__sea_1__land_surface'));

@@ -56,6 +56,7 @@ disp('    ...SSH')
 ssh=getdap(url,'',...
 	       'ssh',trange,'',jrange,...
 	       i1min,i1max,i2min,i2max,i3min,i3max);
+ssh=ssh';       
 % eval(['missval=double(x.ssh.',missname,');'])
 % if missval<0
 %   ssh(ssh<=(0.9*missval))=NaN;
@@ -69,6 +70,7 @@ disp('    ...TAUX')
 taux=getdap(url,'',...
 		'taux',trange,'',jrange,...
 		i1min,i1max,i2min,i2max,i3min,i3max);
+taux=taux';    
 % eval(['missval=double(x.taux.',missname,');'])
 % if missval<0
 %   taux(taux<=(0.9*missval))=NaN;
@@ -82,6 +84,7 @@ disp('    ...TAUY')
 tauy=getdap(url,'',...
 		'tauy',trange,'',jrange,...
 		i1min,i1max,i2min,i2max,i3min,i3max);
+tauy=tauy';    
 % eval(['missval=double(x.tauy.',missname,');'])
 % if missval<0
 %   tauy(tauy<=(0.9*missval))=NaN;
@@ -96,6 +99,7 @@ u=getdap(url,'',...
 	     'u',trange,krange,jrange,...
 	     i1min,i1max,i2min,i2max,i3min,i3max);
 u=shiftdim(u,2);
+u=reshape_3D(u);
 % eval(['missval=double(x.u.',missname,');'])
 % if missval<0
 %   u(u<=(0.9*missval))=NaN;
@@ -110,6 +114,11 @@ v=getdap(url,'',...
 	     'v',trange,krange,jrange,...
 	     i1min,i1max,i2min,i2max,i3min,i3max);
 v=shiftdim(v,2);
+v=reshape_3D(v);
+% 40 720 62 --> 40 62 720
+
+
+
 % eval(['missval=double(x.v.',missname,');'])
 % if missval<0
 %   v(v<=(0.9*missval))=NaN;
@@ -124,6 +133,7 @@ temp=getdap(url,'',...
 		'temp',trange,krange,jrange,...
 		i1min,i1max,i2min,i2max,i3min,i3max);
 temp=shiftdim(temp,2);
+temp=reshape_3D(temp);
 % eval(['missval=double(x.temp.',missname,');'])
 % if missval<0
 %   temp(temp<=(0.9*missval))=NaN;
@@ -138,6 +148,7 @@ salt=getdap(url,'',...
 		'salt',trange,krange,jrange,...
 		i1min,i1max,i2min,i2max,i3min,i3max);
 salt=shiftdim(salt,2);
+salt=reshape_3D(salt);
 % eval(['missval=double(x.salt.',missname,');'])
 % if missval<0
 %   salt(salt<=(0.9*missval))=NaN;
@@ -147,8 +158,22 @@ salt=shiftdim(salt,2);
 %
 % Create the SODA file
 %
+
+
+
 create_SODA([SODA_dir,SODA_prefix,'Y',num2str(year),'M',num2str(month),'.cdf'],...
             lon,lat,lon,lat,lon,lat,depth,time,...
             temp,salt,u,v,ssh,taux,tauy,Yorig)
 %
-return
+end
+
+function w=reshape_3D(v)
+    
+    % 40 720 62 --> 40 62 720
+    [x,y,z]=size(v);
+    w=nan(x,z,y);
+    for i=1:x
+        s1=squeeze(v(i,:,:));
+        w(i,:,:)=s1';
+    end
+end 

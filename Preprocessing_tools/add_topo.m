@@ -57,10 +57,16 @@ dy=mean(mean(1./pn));
 dx_roms=mean([dx dy]);
 disp(['   ROMS resolution : ',num2str(dx_roms/1000,3),' km'])
 %
-% dl=max([1 2*(dx_roms/(60*1852))]);
-dl=0;
+dl=max([1 2*(dx_roms/(60*1852))]);
+% dl=0;
 lonmin=min(min(lon))-dl;
+if lonmin<-180
+    lonmin=lonmin+dl;
+end
 lonmax=max(max(lon))+dl;
+if lonmax>180
+    lonmax=lonmax-dl;
+end
 latmin=min(min(lat))-dl;
 latmax=max(max(lat))+dl;
 %
@@ -141,6 +147,6 @@ disp(['   New topography resolution : ',num2str(dx_topo/1000,3),' km'])
 %
 %  interpolate the topo
 %extrapval
-h=interp2(x,y,topo,lon,lat,'cubic');
+h=interp2(x,y,topo,lon,lat,'makima');
 %
 return

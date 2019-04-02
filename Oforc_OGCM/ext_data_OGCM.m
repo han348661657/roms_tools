@@ -45,13 +45,18 @@ end
 %
 dx=max(abs(gradient(X)));
 dy=max(abs(gradient(Y)));
-% dl=2*max([dx dy]);
-dl=0;
+dl=2*max([dx dy]);
 %
 lonmin=min(min(lon))-dl;
+if lonmin<-180
+    lonmin=lonmin+dl;
+end
 lonmax=max(max(lon))+dl;
-latmin=min(min(lat))-1;
-latmax=max(max(lat))+1;
+if lonmax>180
+    lonmax=lonmax-dl;
+end
+latmin=min(min(lat))-dl;
+latmax=max(max(lat))+dl;
 %
 % Extract a data subgrid
 %

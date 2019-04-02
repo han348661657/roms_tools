@@ -1,4 +1,4 @@
-% 此程序用来将WWIII输出的ta和toc写入到roms_rutegers
+ls% 此程序用来将WWIII输出的ta和toc写入到roms_rutegers
 % 的blk.nc文件中，替换掉里面的风速
 % 需要在roms模式中搭配WINDSTRESS && BULK_FLUXS cpp开关
 clearvars -global
@@ -9,12 +9,15 @@ romstools_param
 % /2006
 % 再下一层文件夹 /ust、taw、two三个子文件夹     
 ww3_dir='H:\ww3\raw data\'; 
-blk_old_dir='ROMS_FILES\';% roms_blk.nc文件所在路径
-blk_new_dir='ROMS_FILES\ww3_toc\';% 新的roms_blk.nc文件路径
+output_root='ROMS_FILES\';% 输出文件根目录
 grd_name='ROMS_FILES\roms_grd.nc';
-varname='toc';% 'tar' or 'toc'
-blk_prefix='roms_blk_CFSR_';
+varname='tar';% 'tar' or 'toc'
 
+
+blk_prefix='roms_blk_CFSR_';
+filename=['ww3_',varname];
+blk_old_dir=output_root;% roms_blk.nc文件所在路径
+blk_new_dir=fullfile(output_root,filename);% 新的roms_blk.nc文件路径
 if exist(blk_new_dir,'dir')==0
 	mkdir(blk_new_dir);% 或者用 mkdir data,在当前目录下，生成一个data文件夹
 end
@@ -61,9 +64,11 @@ end
         sms_time=[sms_time1;sms_time2;sms_time3];
         sustr=cat(3,sustr1,sustr2,sustr3);
         svstr=cat(3,svstr1,svstr2,svstr3);
-        
-        blk_old_name=[blk_old_dir,blk_prefix,'Y',num2str(Y),'M',num2str(M),'.nc'];
-        blk_new_name=[blk_new_dir,blk_prefix,'Y',num2str(Y),'M',num2str(M),'.nc'];
+        blk_name1=[blk_prefix,'Y',num2str(Y),'M',num2str(M),'.nc'];
+        blk_old_name=fullfile(blk_old_dir,blk_name1);
+        % 新的文件名
+        blk_name2=[blk_prefix,'Y',num2str(Y),'M',num2str(M),'_',varname,'.nc'];
+        blk_new_name=fullfile(blk_new_dir,blk_name2);
         disp([' copy ', blk_old_name])
         disp([' into ',blk_new_name])
         copyfile(blk_old_name,blk_new_name)

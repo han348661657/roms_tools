@@ -33,7 +33,13 @@ function [i1min,i1max,i2min,i2max,i3min,i3max,jrange,krange,lon,lat,depth]=...
 
 dl=1;
 lonmin=lonmin-dl;
+if lonmin<-180
+    lonmin=lonmin+dl;
+end
 lonmax=lonmax+dl;
+if lonmax>180
+    lonmax=lonmax-dl;
+end
 latmin=latmin-dl;
 latmax=latmax+dl;
 %

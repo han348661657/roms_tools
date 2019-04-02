@@ -56,8 +56,8 @@ ROMS_config = 'Equator';
 % lonmax =  248;   % Maximum longitude [degree east]
 % latmin = -40;   % Minimum latitudeF  [degree north]
 % latmax = -67;   % Maximum latitude  [degree north]
-lonmin =   -180;   % Minimum longitude [degree east]
-lonmax =  180;   % Maximum longitude [degree east]
+lonmin =   -179.75;   % Minimum longitude [degree east]
+lonmax =  179.75;   % Maximum longitude [degree east]
 latmin = -65;   % Minimum latitudeF  [degree north]
 latmax = -35;   % Maximum latitude  [degree north]
 %
