@@ -338,8 +338,8 @@ Yorig         = 2000;          % reference time for vector time
 %
 Ymin          = 2005;          % first forcing year
 Ymax          = 2005;          % last  forcing year
-Mmin          = 1;             % first forcing month
-Mmax          = 1;             % last  forcing month
+Mmin          = 3;             % first forcing month
+Mmax          = 4;             % last  forcing month
 %
 Dmin          = 1;             % Day of initialization
 Hmin          = 0;             % Hour of initialization
@@ -354,7 +354,7 @@ SPIN_Long     = 0;             % SPIN-UP duration in Years
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-Download_data = 0;   % Get data from OPENDAP sites SODA 
+Download_data = 1;   % Get data from OPENDAP sites SODA 
 level         = 0;   % AGRIF level; 0 = parent grid
 %					  
 NCEP_version  = 3;   % NCEP version: 

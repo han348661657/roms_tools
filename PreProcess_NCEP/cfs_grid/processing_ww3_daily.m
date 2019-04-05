@@ -2,10 +2,10 @@ clear;clc;
 %生成ww3 case 中制作forc.nc所需的CFSR中间文件
 %===========================================
 %用户定义参数
-Ymin=2004;
+Ymin=2005;
 Ymax=2005;
-Mmin=12;
-Mmax=2 ;
+Mmin=2;
+Mmax=6 ;
 NCEP_dir='E:\2.NCEP\data\';% 该目录下还有两级子文件夹，YYYY/month/
 Output_dir='H:\roms-liu\run_han\ROMS_FILES\CFSR_Equator\';
 Yorig=2000;

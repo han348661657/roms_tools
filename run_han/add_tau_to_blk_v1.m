@@ -11,7 +11,7 @@ romstools_param
 ww3_dir='H:\ww3\raw data\'; 
 output_root='ROMS_FILES\';% 输出文件根目录
 grd_name='ROMS_FILES\roms_grd.nc';
-varname='tar';% 'tar' or 'toc'
+varname='toc';% 'tar' or 'toc'
 
 
 blk_prefix='roms_blk_CFSR_';
